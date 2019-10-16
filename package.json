@@ -3,17 +3,22 @@
   "version": "0.0.1",
   "description": "webpack_vue",
   "main": "index.js",
-  "scripts": {},
+  "scripts": {
+    "start": "npx build/webpack.dev.config.js"
+  },
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "bable-loader": "^0.0.1-security",
+    "file-loader": "^4.2.0",
     "html-webpack-plugin": "^4.0.0-beta.8",
     "less": "^3.10.3",
     "less-loader": "^4.1.0",
     "style-loader": "^0.23.1",
     "url-loader": "^2.2.0",
     "webpack": "^5.0.0-alpha.30",
-    "webpack-cli": "^3.3.9"
+    "webpack-cli": "^3.3.9",
+    "webpack-merge": "^4.2.2"
   },
   "dependencies": {
     "vue": "^2.6.10",
