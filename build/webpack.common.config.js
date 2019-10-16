@@ -1,17 +1,31 @@
 const path = require('path');
-const webpack = require('webpack');
-const fs = require("fs");
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const VueLoaderPlugin = require('vue-loader/lib/plugin');
-let entryPath = 'src/index.html';
+const {VueLoaderPlugin} = require('vue-loader');
+let entryPath = './src/index.html';
+
+let htmlWebpackPlugin = new HtmlWebpackPlugin({
+    filename: 'index.html',
+    title: '五号导学测试',
+    template: path.resolve(__dirname, "../src/index.html"),
+    minify: {
+        removeAttributeQuotes: true,//删除引用属性的引号
+        collapseWhitespace: true,//删除空格
+        removeComments: true
+    },
+    hash: true
+});
+
+if (process.env.NODE_ENV == 'production') {
+    htmlWebpackPlugin.options.mode = 'production';
+}
 
 module.exports = {
-    entry:entryPath,
+    entry: entryPath,
     module: {
         rules: [
             {
                 test: /\.vue$/,
-                use: ['views-loader']
+                use: 'vue-loader'
             }, {
                 test: /\.(jpg|png|git|svg|jpeg)$/,
                 use: [
@@ -51,30 +65,26 @@ module.exports = {
                 ]
             }, {
                 test: /\.(woff|woff2|eot|ttf|otf)$/,
-                use: ["file-loader"]
+                use: "file-loader"
             }, {
                 test: /\.js/,
                 exclude: /node_modules/,//不处理以下目录中的js
                 include: /src/,//只处理以下目录下的js
-                use: ['bable-loader']
+                use: 'babel-loader'
             }
         ]
     },
     resolve: {
-        "@": path.resolve(__dirname, '../src'),
-        "@/route": path.resolve(__dirname, "../src/route"),
-        "@/assets": path.resolve(__dirname, "../src/assets")
+        extensions: ['.vue', '.js', 'less', 'json'],
+        alias: {
+            "@": path.resolve(__dirname, '../src'),
+            "@/route": path.resolve(__dirname, "../src/route"),
+            "@/assets": path.resolve(__dirname, "../src/assets")
+        }
+
     },
     plugins: [
-        new HtmlWebpackPlugin({
-            template: path.resolve(__dirname, "../src/index.html"),
-            filename: 'index.html',
-            minify: {
-                removeAttributeQuotes: true,//删除引用属性的引号
-                collapseWhitespace: true,//删除空格
-                removeComments: true
-            }
-        }),
-        new VueLoaderPlugin()
+        new VueLoaderPlugin(),
+        htmlWebpackPlugin
     ]
 };

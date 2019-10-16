@@ -5,5 +5,5 @@ import App from './App'
 Vue.use(ElementUI);
 
 new Vue({
-    render:h=>h(App)
+    render: h => h(App)
 }).$mount("#app");
